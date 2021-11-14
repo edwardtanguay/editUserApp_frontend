@@ -105,9 +105,12 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1>Edit User App Frontend</h1>
+			<h1>User Management App</h1>
 			<div className="addUserArea">
-				<div><button onClick={handleToggleAddUserArea}>Add User</button></div>
+				<div className="topInfoRow">
+					<button onClick={handleToggleAddUserArea}>Add User</button>
+					<div className="totalInfo">Total: {users.length} users</div>
+				</div>
 				{isAddingUser && (
 					<div className="addUserFormArea">
 						<form>

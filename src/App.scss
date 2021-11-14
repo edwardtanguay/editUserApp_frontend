@@ -93,4 +93,8 @@ body {
 			}
 		}
 	}
+	.topInfoRow {
+		display: flex;
+		justify-content: space-between;
+	}
 }
