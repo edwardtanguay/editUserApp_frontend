@@ -6,11 +6,6 @@ See also the [backend](https://github.com/edwardtanguay/manageUserAppBackend).
 
 ## Setup
 
+- (make sure that the [backend](https://github.com/edwardtanguay/manageUserAppBackend) is running)
 - `npm i`
 - `npm start`
-
-## Test
-
-- in VSCode, install the Rest Client extension
-- open `test.http`
-- click on e.g. "Send Request" under "### show all users"
