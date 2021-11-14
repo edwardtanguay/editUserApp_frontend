@@ -55,14 +55,26 @@ function App() {
 		})();
 	}
 
+	const clearForm = () => {
+		setFormName('');
+		setFormUsername('');
+		setFormEmail('');
+	}
+
 	const handleToggleAddUserArea = () => {
+		setIsAddingUser(!isAddingUser);
+	}
+
+	const handleCancelAddForm = (e) => {
+		e.preventDefault();
+		clearForm();
 		setIsAddingUser(!isAddingUser);
 	}
 
 	const handleFormName = (e) => {
 		setFormName(e.target.value);
 	}
-	
+
 	const handleFormUsername = (e) => {
 		setFormUsername(e.target.value);
 	}
@@ -70,6 +82,27 @@ function App() {
 	const handleFormEmail = (e) => {
 		setFormEmail(e.target.value);
 	}
+
+	const handleFormSaveButton = (e) => {
+		e.preventDefault();
+		(async () => {
+			await fetch(`${backendUrl}/insertuser`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					user: {
+						name: formName,
+						username: formUsername,
+						email: formEmail
+					}
+				})
+			});
+			clearForm();
+			setIsAddingUser(false);
+			loadUsers();
+		})();
+	}
+
 	return (
 		<div className="App">
 			<h1>Edit User App Frontend</h1>
@@ -79,7 +112,7 @@ function App() {
 					<div className="addUserFormArea">
 						<form>
 							<div className="row">
-								<label for="name">Full Name: </label>
+								<label htmlFor="name">Full Name: </label>
 								<input type="text"
 									value={formName}
 									onChange={handleFormName}
@@ -87,24 +120,24 @@ function App() {
 							</div>
 
 							<div className="row">
-								<label for="username">User Name: </label>
-								<input type="tel"
+								<label htmlFor="username">User Name: </label>
+								<input type="text"
 									value={formUsername}
 									onChange={handleFormUsername}
 									id="username" />
 							</div>
 
 							<div className="row">
-								<label for="email">Email: </label>
-								<input type="email"
+								<label htmlFor="email">Email: </label>
+								<input type="text"
 									value={formEmail}
 									onChange={handleFormEmail}
 									id="email" />
 							</div>
 
 							<div className="formButtonArea">
-								<button type="button">Save New User</button>
-								<button type="button" onClick={handleToggleAddUserArea}>Cancel</button>
+								<button onClick={(e) => handleFormSaveButton(e)}>Save New User</button>
+								<button onClick={handleCancelAddForm}>Cancel</button>
 							</div>
 						</form>
 					</div>
