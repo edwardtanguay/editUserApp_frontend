@@ -103,8 +103,8 @@ function App() {
 							</div>
 
 							<div className="formButtonArea">
-								<button>Save New User</button>
-								<button>Cancel</button>
+								<button type="button">Save New User</button>
+								<button type="button" onClick={handleToggleAddUserArea}>Cancel</button>
 							</div>
 						</form>
 					</div>
