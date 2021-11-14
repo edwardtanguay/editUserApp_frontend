@@ -8,6 +8,9 @@ const backendUrl = 'http://localhost:3016';
 function App() {
 	const [users, setUsers] = useState([]);
 	const [isAddingUser, setIsAddingUser] = useState(false);
+	const [formName, setFormName] = useState('');
+	const [formUsername, setFormUsername] = useState('');
+	const [formEmail, setFormEmail] = useState('');
 
 	const loadUsers = () => {
 		(async () => {
@@ -56,6 +59,17 @@ function App() {
 		setIsAddingUser(!isAddingUser);
 	}
 
+	const handleFormName = (e) => {
+		setFormName(e.target.value);
+	}
+	
+	const handleFormUsername = (e) => {
+		setFormUsername(e.target.value);
+	}
+
+	const handleFormEmail = (e) => {
+		setFormEmail(e.target.value);
+	}
 	return (
 		<div className="App">
 			<h1>Edit User App Frontend</h1>
@@ -67,21 +81,24 @@ function App() {
 							<div className="row">
 								<label for="name">Full Name: </label>
 								<input type="text"
-									name="name"
+									value={formName}
+									onChange={handleFormName}
 									id="name" />
 							</div>
 
 							<div className="row">
 								<label for="username">User Name: </label>
 								<input type="tel"
-									name="username"
+									value={formUsername}
+									onChange={handleFormUsername}
 									id="username" />
 							</div>
 
 							<div className="row">
 								<label for="email">Email: </label>
 								<input type="email"
-									name="email"
+									value={formEmail}
+									onChange={handleFormEmail}
 									id="email" />
 							</div>
 
