@@ -12,7 +12,7 @@ function App() {
 		(async () => {
 			const response = await fetch(backendUrl);
 			const users = await response.json();
-			users.forEach(user => user.isEditingEmail = true);
+			users.forEach(user => user.isEditingEmail = false);
 			setUsers(users);
 		})();
 	}
@@ -24,6 +24,29 @@ function App() {
 	const handleDeleteButton = (user) => {
 		(async () => {
 			await fetch(`${backendUrl}/deleteuser/${user._id}`, { method: 'DELETE' });
+			loadUsers();
+		})();
+	}
+
+	const handleEditButton = (user) => {
+		user.isEditingEmail = !user.isEditingEmail;
+		setUsers([...users]);
+	}
+
+	const handleEmailChange = (user, e) => {
+		user.email = e.target.value;
+		setUsers([...users]);
+	}
+
+	const handleEmailSave = (user) => {
+		(async () => {
+			await fetch(`${backendUrl}/edituseremail/${user._id}`, {
+				method: 'PATCH',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					email: user.email
+				})
+			});
 			loadUsers();
 		})();
 	}
@@ -52,12 +75,12 @@ function App() {
 									<div className="data">{user.email}</div>
 								)}
 								{user.isEditingEmail && (
-									<div className="data editing"><input type="text" value={user.email} /><button>Save</button><button>Cancel</button></div>
+									<div className="data editing"><input type="text" onChange={(e) => handleEmailChange(user, e)} value={user.email} /><button onClick={() => handleEmailSave(user)}>Save</button><button onClick={() => handleEditButton(user)}>Cancel</button></div>
 								)}
 							</div>
 							<div className="iconRow">
 								<button onClick={() => handleDeleteButton(user)} className="icon"><RiDeleteBin6Line /></button>
-								<button className="icon"><GrEdit /></button>
+								<button className="icon" onClick={() => handleEditButton(user)}><GrEdit /></button>
 							</div>
 						</div>
 					)
