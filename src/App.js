@@ -11,8 +11,9 @@ function App() {
 	const loadUsers = () => {
 		(async () => {
 			const response = await fetch(backendUrl);
-			const data = await response.json();
-			setUsers(data);
+			const users = await response.json();
+			users.forEach(user => user.isEditingEmail = true);
+			setUsers(users);
 		})();
 	}
 
@@ -20,9 +21,9 @@ function App() {
 		loadUsers();
 	}, []);
 
-	const handleEditButton = (user) => {
+	const handleDeleteButton = (user) => {
 		(async () => {
-			await fetch(`${backendUrl}/deleteuser/${user._id}`, { method: 'DELETE'});
+			await fetch(`${backendUrl}/deleteuser/${user._id}`, { method: 'DELETE' });
 			loadUsers();
 		})();
 	}
@@ -47,10 +48,15 @@ function App() {
 							</div>
 							<div className="row">
 								<div className="label">E-Mail:</div>
-								<div className="data">{user.email}</div>
+								{!user.isEditingEmail && (
+									<div className="data">{user.email}</div>
+								)}
+								{user.isEditingEmail && (
+									<div className="data editing"><input type="text" value={user.email} /><button>Save</button><button>Cancel</button></div>
+								)}
 							</div>
 							<div className="iconRow">
-								<button onClick={() => handleEditButton(user)} className="icon"><RiDeleteBin6Line /></button>
+								<button onClick={() => handleDeleteButton(user)} className="icon"><RiDeleteBin6Line /></button>
 								<button className="icon"><GrEdit /></button>
 							</div>
 						</div>
