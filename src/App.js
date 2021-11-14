@@ -7,6 +7,7 @@ const backendUrl = 'http://localhost:3016';
 
 function App() {
 	const [users, setUsers] = useState([]);
+	const [isAddingUser, setIsAddingUser] = useState(false);
 
 	const loadUsers = () => {
 		(async () => {
@@ -51,26 +52,61 @@ function App() {
 		})();
 	}
 
+	const handleToggleAddUserArea = () => {
+		setIsAddingUser(!isAddingUser);
+	}
+
 	return (
 		<div className="App">
 			<h1>Edit User App Frontend</h1>
 			<div className="addUserArea">
-				<div><button>Add User</button></div>
+				<div><button onClick={handleToggleAddUserArea}>Add User</button></div>
+				{isAddingUser && (
+					<div className="addUserFormArea">
+						<form>
+							<div className="row">
+								<label for="name">Full Name: </label>
+								<input type="text"
+									name="name"
+									id="name" />
+							</div>
+
+							<div className="row">
+								<label for="username">User Name: </label>
+								<input type="tel"
+									name="username"
+									id="username" />
+							</div>
+
+							<div className="row">
+								<label for="email">Email: </label>
+								<input type="email"
+									name="email"
+									id="email" />
+							</div>
+
+							<div className="formButtonArea">
+								<button>Save New User</button>
+								<button>Cancel</button>
+							</div>
+						</form>
+					</div>
+				)}
 			</div>
 			<section className="users">
 				{users.map((user, index) => {
 					return (
 						<div key={index} className="userCard">
 							<div className="row">
-								<div className="label">Full Name:</div>
+								<div className="label">Full Name: </div>
 								<div className="data">{user.name}</div>
 							</div>
 							<div className="row">
-								<div className="label">User Name:</div>
+								<div className="label">User Name: </div>
 								<div className="data">{user.username}</div>
 							</div>
 							<div className="row">
-								<div className="label">E-Mail:</div>
+								<div className="label">E-Mail: </div>
 								{!user.isEditingEmail && (
 									<div className="data">{user.email}</div>
 								)}
